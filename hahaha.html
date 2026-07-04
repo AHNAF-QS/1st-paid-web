@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mrinmoyee</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Fixed Background with Grain Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("bg.jpeg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: brightness(0.5) contrast(1.1);
+            z-index: -1;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @keyframes titleEnter {
+            0% { opacity: 0; transform: scale(0.5) rotateX(-30deg) skewX(20deg); filter: blur(40px); }
+            60% { transform: scale(1.05) rotateX(10deg); filter: blur(5px); }
+            100% { opacity: 1; transform: scale(1) rotateX(0deg) skewX(0deg); filter: blur(0px); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .animate-title { animation: titleEnter 2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .float { animation: float 4s ease-in-out infinite; }
+
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(80px);
+            -webkit-backdrop-filter: blur(80px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8),
+                        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .liquid-glass:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        .dropdown-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            min-width: 280px;
+            z-index: 50;
+        }
+
+        .dropdown-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased flex flex-col items-center justify-center min-h-screen p-6">
+
+    <!-- Logo with Float -->
+    <div class="fixed top-8 left-8 z-50 float">
+        <div class="w-16 h-16 liquid-glass rounded-3xl flex items-center justify-center border-white/10 shadow-2xl overflow-hidden">
+            <img src="logo.png" alt="Logo" class="w-full h-full object-cover opacity-90" onerror="this.style.display='none'">
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-8 w-full max-w-5xl px-4 z-40 flex justify-center flex-wrap gap-3">
+        <!-- Home -->
+        <div class="relative group">
+            <button onclick="toggleDropdown('home')" class="px-6 py-3 rounded-full liquid-glass font-bold text-[10px] uppercase tracking-[0.25em] shadow-lg">Home</button>
+            <div id="dd-home" class="dropdown-content liquid-glass p-6 rounded-3xl text-center border-white/10">
+                <h3 class="text-[9px] font-black mb-3 uppercase tracking-widest text-white/50">Home</h3>
+                <p class="text-xs">Welcome to Mrinmoyee.</p>
+            </div>
+        </div>
+
+        <!-- Jute -->
+        <div class="relative group" onmouseenter="showHover('jute')" onmouseleave="hideHover('jute')">
+            <button class="px-6 py-3 rounded-full liquid-glass font-bold text-[10px] uppercase tracking-[0.25em] shadow-lg">Jute</button>
+            <div id="dd-jute" class="dropdown-content liquid-glass p-6 rounded-3xl text-left border-white/10">
+                <h3 class="text-[9px] font-black mb-3 uppercase tracking-widest text-white/50">Jute</h3>
+                <ul class="text-xs space-y-3 opacity-90 font-medium">
+                    <li>Tote Bags</li>
+                    <li>Handbag</li>
+                    <li>Rug</li>
+                    <li>Table Mat</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Bamboo -->
+        <div class="relative group" onmouseenter="showHover('bamboo')" onmouseleave="hideHover('bamboo')">
+            <button class="px-6 py-3 rounded-full liquid-glass font-bold text-[10px] uppercase tracking-[0.25em] shadow-lg">Bamboo</button>
+            <div id="dd-bamboo" class="dropdown-content liquid-glass p-6 rounded-3xl text-left border-white/10">
+                <h3 class="text-[9px] font-black mb-3 uppercase tracking-widest text-white/50">Bamboo</h3>
+                <ul class="text-xs space-y-3 opacity-90 font-medium">
+                    <li>Lamp shade</li>
+                    <li>Box</li>
+                    <li>Basket</li>
+                    <li>Tray</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- About -->
+        <div class="relative group">
+            <button onclick="toggleDropdown('id')" class="px-6 py-3 rounded-full liquid-glass font-bold text-[10px] uppercase tracking-[0.25em] shadow-lg">about</button>
+            <div id="dd-id" class="dropdown-content liquid-glass p-6 rounded-3xl text-center border-white/10">
+                <h3 class="text-[9px] font-black mb-3 uppercase tracking-widest text-white/50">About</h3>
+                <p class="text-xs opacity-90">Coming Soon.</p>
+            </div>
+        </div>
+
+        <!-- Contacts -->
+        <div class="relative group">
+            <button onclick="toggleDropdown('contacts')" class="px-6 py-3 rounded-full liquid-glass font-bold text-[10px] uppercase tracking-[0.25em] shadow-lg">contacts</button>
+            <div id="dd-contacts" class="dropdown-content liquid-glass p-6 rounded-3xl text-center border-white/10">
+                <h3 class="text-[9px] font-black mb-3 uppercase tracking-widest text-white/50">Contacts</h3>
+                <p class="text-xs opacity-90">Coming Soon.</p>
+            </div>
+        </div>
+
+        <!-- Gallery -->
+        <div class="relative group">
+            <button onclick="toggleDropdown('gallery')" class="px-6 py-3 rounded-full liquid-glass font-bold text-[10px] uppercase tracking-[0.25em] shadow-lg">Gallery</button>
+            <div id="dd-gallery" class="dropdown-content liquid-glass p-6 rounded-3xl text-center border-white/10">
+                <h3 class="text-[9px] font-black mb-3 uppercase tracking-widest text-white/50">Gallery</h3>
+                <p class="text-xs opacity-90">Coming Soon.</p>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Title -->
+    <main class="flex-grow flex items-center justify-center text-center">
+        <div class="p-8 relative">
+            <h1 class="text-7xl sm:text-[10rem] font-black tracking-[-0.05em] uppercase italic text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-white/40 drop-shadow-[0_20px_40px_rgba(255,255,255,0.25)] select-none animate-title">
+                mrinmoyee
+            </h1>
+        </div>
+    </main>
+
+    <footer class="w-full text-center py-8 text-[9px] uppercase tracking-[0.4em] opacity-30">
+        &copy; ahnaf. All rights reserved.
+    </footer>
+
+    <script>
+        function toggleDropdown(id) {
+            const el = document.getElementById('dd-' + id);
+            const isActive = el.classList.contains('active');
+            document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('active'));
+            if (!isActive) el.classList.add('active');
+        }
+        function showHover(id) { document.getElementById('dd-' + id).classList.add('active'); }
+        function hideHover(id) { document.getElementById('dd-' + id).classList.remove('active'); }
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.group')) {
+                document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('active'));
+            }
+        });
+    </script>
+</body>
+</html>
